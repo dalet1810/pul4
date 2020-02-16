@@ -300,6 +300,7 @@ void app_main()
 	if(strncmp(arsplit[0], "tr", 2) == 0) {
             printf("@ tr loaded sig list<%s>:", arsplit[0]);
             printf("@[%d]\n", argim);
+	    for(int k=0; k<argim; k++){printf("%s,", arsplit[k]);}
 	}
         printf("..._ loaded signal<%s>:", arsplit[0]);
         disp_vec(o, vec2);
