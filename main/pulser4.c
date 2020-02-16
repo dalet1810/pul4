@@ -297,6 +297,10 @@ void app_main()
 
         loadnmstr(vec2, arsplit[0], 14);
         loadnmstr(xvec, arsplit[0], 14); //global xvec
+	if(strncmp(arsplit[0], "tr", 2) == 0) {
+            printf("@ tr loaded sig list<%s>:", arsplit[0]);
+            printf("@[%d]\n", argim);
+	}
         printf("..._ loaded signal<%s>:", arsplit[0]);
         disp_vec(o, vec2);
         printf("_...\n");
