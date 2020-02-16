@@ -74,7 +74,10 @@ static void IRAM_ATTR gpio_isr_handler(void* arg)
     sigim[3] = rang4;
     pulcode = 0;
     sigcur = (unsigned int *)xvec; //xline? xvec?
-
+/* predefined set of pulses repeated by changing pulcode
+        sigcur = sigim[pulcode];
+        pulcode = (pulcode +1) % 3;
+*/
     gpio_set_level(BLONK_GPIO, 0);
     if(config.counter_en == TIMER_PAUSE) {
         gpio_set_level(BLINK_GPIO, 1);
