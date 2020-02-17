@@ -369,6 +369,9 @@ void loadnmstr(int *out, char *name, int maxint)
     arline = malloc(sizeof(char *) * 10);
     nargs = getArgs(sv2, arline, 10);
     printf("loadnmstr nargs=%d {", nargs);
+    if(nargs == 0) {
+	out[0] = -1;
+    }	
     for(int j=0; j<nargs; j++) { printf("[%d:%s (%d)] ", j, arline[j], atoi(arline[j])); }
     printf("}\n");
     for(int j=1; j<nargs; j++) { //skip 1st (name)
