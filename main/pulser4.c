@@ -274,10 +274,25 @@ void tstnvs()
 
 void loadtrain(int cnt, char **names)
 {
+    int n = 0;
+    int *vec0 = (int *)0;
+
     printf("@ loadtrain <%s>:", names[0]);
     printf("@ loadtrain [%d]\n", cnt);
-    for(int k=0; k<cnt; k++){printf("%s,", names[k]);}
-    printf("@ \nloadtrain\n");
+    for(int k=1; k<cnt; k++) {
+        printf("@loadtrain %s\n", names[k]);
+	if(strncmp("E", names[k], 1) == 0)
+	    break;
+	n++;
+	vec0 = (int *)malloc(sizeof(int *) * 20);
+        loadnmstr(vec0, names[k], 18);
+
+        printf("@train car loaded <%s>:", names[k]);
+        disp_vec((char *)0, vec0);
+        printf("@train car end\n");
+	free(vec0);
+    }
+    printf("@ \nloadtrain n=%d\n", n);
 }
 
 void app_main()
