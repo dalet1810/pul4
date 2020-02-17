@@ -272,6 +272,14 @@ void tstnvs()
     printf("read %s:<%s>\n\n", "pm0", mem);
 }
 
+void loadtrain(int cnt, char **names)
+{
+    printf("@ loadtrain <%s>:", names[0]);
+    printf("@ loadtrain [%d]\n", cnt);
+    for(int k=0; k<cnt; k++){printf("%s,", names[k]);}
+    printf("@ \nloadtrain\n");
+}
+
 void app_main()
 {
         int vec2[30];
@@ -297,15 +305,14 @@ void app_main()
 
         loadnmstr(vec2, arsplit[0], 14);
         loadnmstr(xvec, arsplit[0], 14); //global xvec
-	if(strncmp(arsplit[0], "tr", 2) == 0) {
-            printf("@ tr loaded sig list<%s>:", arsplit[0]);
-            printf("@[%d]\n", argim);
-	    for(int k=0; k<argim; k++){printf("%s,", arsplit[k]);}
-	}
-        printf("..._ loaded signal<%s>:", arsplit[0]);
-        disp_vec(o, vec2);
-        printf("_...\n");
 
+	if(strncmp(arsplit[0], "tr", 2) == 0) {
+	    loadtrain(argim, arsplit);
+	} else {
+            printf("..._ loaded signal<%s>:", arsplit[0]);
+            disp_vec(o, vec2);
+            printf("_...\n");
+        }
 	sigcur = (unsigned int *)vec2; //! generate single pulse
 
 
