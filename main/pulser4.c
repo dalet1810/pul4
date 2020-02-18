@@ -309,6 +309,16 @@ void showtrain(int *tra[])
         disp_vec((char *)0, *ptra++);
     }
 }
+void freetrain(int *tra[])
+{
+    int **ptra = tra;
+
+    printf("&freetrain:\n");
+    for(int n=0; *ptra != (int *)0; n++) {
+        printf("&freetrain %d>\n", n);
+        free(*ptra++);
+    }
+}
 
 void app_main()
 {
@@ -340,6 +350,7 @@ void app_main()
 	if(strncmp(arsplit[0], "tr", 2) == 0) {
 	    loadtrain(argim, arsplit, tra);
 	    showtrain(tra);
+	    //freetrain(tra);
 	} else {
             printf("..._ loaded signal<%s>:", arsplit[0]);
             disp_vec(o, vec2);
