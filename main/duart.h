@@ -15,3 +15,5 @@ void loadnmstr(int *out, char *name, int maxout);
 #define SVLINEMAX 70
 char xline[SVLINEMAX];
 int xvec[30];
+int *xtrain[20];
+

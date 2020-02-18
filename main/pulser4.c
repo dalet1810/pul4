@@ -152,7 +152,11 @@ void IRAM_ATTR timer_group0_isr(void *para)
     //static unsigned int rng[] = {0, 100, 101, 120, 160}; //neg side pulse
     //static unsigned int rng[] = {0, 15, 75, 100, 101, 120, 160}; //both sides pulse
     static unsigned int *rng;
-rng = sigcur;
+    if(xtrain[0] == (int *)0) {
+        rng = sigcur;
+    } else {
+        rng = (unsigned int *)xtrain[0];
+    }
 
     static int sig = 0;
     static int ax = 0;
@@ -323,7 +327,7 @@ void freetrain(int *tra[])
 void app_main()
 {
         int vec2[30];
-	int *tra[20];
+	//int *tra[20];
 
 	printf("pulser4 - generate synced timed pulse\nuse internal NVS list\n");
 	nvs_starter();
@@ -348,9 +352,9 @@ void app_main()
         loadnmstr(xvec, arsplit[0], 14); //global xvec
 
 	if(strncmp(arsplit[0], "tr", 2) == 0) {
-	    loadtrain(argim, arsplit, tra);
-	    showtrain(tra);
-	    //freetrain(tra);
+	    loadtrain(argim, arsplit, xtrain);
+	    showtrain(xtrain);
+	    //freetrain(xtrain);
 	} else {
             printf("..._ loaded signal<%s>:", arsplit[0]);
             disp_vec(o, vec2);
