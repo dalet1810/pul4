@@ -272,10 +272,12 @@ void tstnvs()
     printf("read %s:<%s>\n\n", "pm0", mem);
 }
 
-void loadtrain(int cnt, char **names)
+void loadtrain(int cnt, char **names, int *tra[])
 {
     int n = 0;
     int *vec0 = (int *)0;
+    //int *tra[20]; // = (int **)0;
+    int **ptra = tra;
 
     printf("@ loadtrain <%s>:", names[0]);
     printf("@ loadtrain [%d]\n", cnt);
@@ -290,14 +292,28 @@ void loadtrain(int cnt, char **names)
         printf("@train car loaded <%s>:", names[k]);
         disp_vec((char *)0, vec0);
         printf("@train car end\n");
-	free(vec0);
+	*ptra++ = vec0;
+	//free(vec0);
     }
+    *ptra = (int *)0;
     printf("@ \nloadtrain n=%d\n", n);
+}
+
+void showtrain(int *tra[])
+{
+    int **ptra = tra;
+
+    printf("&showtrain:\n");
+    for(int n=0; *ptra != (int *)0; n++) {
+        printf("&showtrain %d>\n", n);
+        disp_vec((char *)0, *ptra++);
+    }
 }
 
 void app_main()
 {
         int vec2[30];
+	int *tra[20];
 
 	printf("pulser4 - generate synced timed pulse\nuse internal NVS list\n");
 	nvs_starter();
@@ -322,7 +338,8 @@ void app_main()
         loadnmstr(xvec, arsplit[0], 14); //global xvec
 
 	if(strncmp(arsplit[0], "tr", 2) == 0) {
-	    loadtrain(argim, arsplit);
+	    loadtrain(argim, arsplit, tra);
+	    showtrain(tra);
 	} else {
             printf("..._ loaded signal<%s>:", arsplit[0]);
             disp_vec(o, vec2);
