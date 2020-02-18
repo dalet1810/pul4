@@ -78,6 +78,10 @@ static void IRAM_ATTR gpio_isr_handler(void* arg)
         sigcur = sigim[pulcode];
         pulcode = (pulcode +1) % 3;
 */
+    if(xtrain[0] != (int *)0) {
+        sigcur = (unsigned int *)xtrain[pulcode];
+        pulcode = (pulcode +1) % 3;
+    }
     gpio_set_level(BLONK_GPIO, 0);
     if(config.counter_en == TIMER_PAUSE) {
         gpio_set_level(BLINK_GPIO, 1);
