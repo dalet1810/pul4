@@ -66,6 +66,7 @@ static unsigned int *sigim[] =
 
 unsigned int *sigcur;
 unsigned int pulcode = 0;
+unsigned int xtraincnt = 3;
 
 static void IRAM_ATTR gpio_isr_handler(void* arg)
 {
@@ -82,7 +83,7 @@ static void IRAM_ATTR gpio_isr_handler(void* arg)
 */
     if(xtrain[0] != (int *)0) {
         sigcur = (unsigned int *)xtrain[pulcode];
-        pulcode = (pulcode +1) % 3;
+        pulcode = (pulcode +1) % xtraincnt;
     }
     gpio_set_level(BLONK_GPIO, 0);
     if(config.counter_en == TIMER_PAUSE) {
@@ -278,7 +279,7 @@ void tstnvs()
     printf("read %s:<%s>\n\n", "pm0", mem);
 }
 
-void loadtrain(int cnt, char **names, int *tra[])
+int loadtrain(int cnt, char **names, int *tra[])
 {
     int n = 0;
     int *vec0 = (int *)0;
@@ -303,17 +304,20 @@ void loadtrain(int cnt, char **names, int *tra[])
     }
     *ptra = (int *)0;
     printf("@ \nloadtrain n=%d\n", n);
+    return n;
 }
 
-void showtrain(int *tra[])
+int showtrain(int *tra[])
 {
+    int n = 0;
     int **ptra = tra;
 
     printf("&showtrain:\n");
-    for(int n=0; *ptra != (int *)0; n++) {
+    for(n=0; *ptra != (int *)0; n++) {
         printf("&showtrain %d>\n", n);
         disp_vec((char *)0, *ptra++);
     }
+    return n;
 }
 void freetrain(int *tra[])
 {
@@ -354,7 +358,8 @@ void app_main()
         loadnmstr(xvec, arsplit[0], 14); //global xvec
 
 	if(strncmp(arsplit[0], "tr", 2) == 0) {
-	    loadtrain(argim, arsplit, xtrain);
+	    xtraincnt = loadtrain(argim, arsplit, xtrain);
+	    printf("@xtraincnt=%d\n", xtraincnt);
 	    showtrain(xtrain);
 	    //freetrain(xtrain);
 	} else {
