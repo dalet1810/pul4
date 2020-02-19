@@ -72,8 +72,10 @@ static void IRAM_ATTR gpio_isr_handler(void* arg)
     static timer_config_t config;
     timer_get_config(0, 1, &config);
     sigim[3] = rang4;
-    pulcode = 0;
-    sigcur = (unsigned int *)xvec; //xline? xvec?
+    //pulcode = 0;
+    if(xtrain[0] == (int *)0) {
+        sigcur = (unsigned int *)xvec; //xline? xvec?
+    }
 /* predefined set of pulses repeated by changing pulcode
         sigcur = sigim[pulcode];
         pulcode = (pulcode +1) % 3;
@@ -156,11 +158,7 @@ void IRAM_ATTR timer_group0_isr(void *para)
     //static unsigned int rng[] = {0, 100, 101, 120, 160}; //neg side pulse
     //static unsigned int rng[] = {0, 15, 75, 100, 101, 120, 160}; //both sides pulse
     static unsigned int *rng;
-    if(xtrain[0] == (int *)0) {
-        rng = sigcur;
-    } else {
-        rng = (unsigned int *)xtrain[0];
-    }
+    rng = sigcur;
 
     static int sig = 0;
     static int ax = 0;
